@@ -1,4 +1,4 @@
-# 💊 **Pill-ID Platform**
+<div align = "center"># 💊 **Pill-ID Platform**</div>div>
 
 > **“Point your camera at a pill. We’ll tell you what it is.”**
 
