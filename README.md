@@ -1,275 +1,354 @@
-# 💊 **Pill-ID Platform**
-
-> **“Point your camera at a pill. We’ll tell you what it is.”**
-
-AI-powered pill identification for healthcare, pharmacies, telemedicine, caregivers, and consumers.
+<h1 align="center">💊 Pill-ID Platform</h1>
+<p align="center"><i>"Point your camera at a pill. We'll tell you what it is."</i></p>
 
 ---
 
-## 🌟 **What This Platform Provides**
+# 🌟 Overview
 
-👉 Automatically identifies medication pills using:
+Pill-ID Platform is an AI-driven system for identifying medication pills from images by combining:
 
-- Visual classification
-- Imprint OCR
-- Color & shape feature extraction
-- Vector similarity search
-- Metadata fusion
-
-Supports both **single-pill** and **multi-pill** images.
-
----
-
-## 🎬 **End-to-End Processing Flow**
-
-```
-📸 Input Image
-       ↓
-🔍 Pill Detection (YOLO)
-       ↓
-✂️ Optional Segmentation
-       ↓
-🔠 Imprint OCR (TrOCR / PaddleOCR)
-       ↓
-🧠 Visual Feature Classification (ViT / EfficientNet)
-       ↓
-🧩 Feature Fusion (Color + Shape + Imprint + Visual Embedding)
-       ↓
-🧲 Vector Similarity Search (OpenSearch / FAISS)
-       ↓
-📚 Metadata Lookup (PostgreSQL)
-       ↓
-🎯 Pill Identification + Confidence Score
-```
-
----
-
-## 🎯 **Accuracy Expectations**
-
-Medication recognition is a **safety-sensitive** task. The platform targets:
-
-| Deployment Context | Target Accuracy |
-|---|---|
-| Consumer | ≥ 90% |
-| Pharmacy | ≥ 95% |
-| Hospital / Clinical | ≥ 97% |
-
-To achieve high accuracy the system incorporates:
-
-- Multi-modal fusion
-- Embedding similarity
-- Calibration of confidence scores
-- Multi-model ensembles (optional)
-- Human override modes (future)
-
----
-
-## 🧱 **Data & Storage Components**
-
-### **Object Storage (S3)** stores:
-
-- User-uploaded images
-- Training datasets
-- Segmented pill crops
-- OCR patches
-- Model weights (.pt / .onnx)
-- Inference logs (optional)
-
-### **Structured Database (PostgreSQL)** stores pill metadata:
-
-- Name
-- Strength
-- Imprint
-- Color
-- Shape
-- Manufacturer
-- NDC code & regulatory metadata
-
-### **Vector Index (OpenSearch / FAISS)** stores embeddings for:
-
-- Visual similarity
-- OCR text similarity
-- Multi-modal hybrid search
-
----
-
-## 🧬 **Model Architecture Choice**
-
-| Task | Model |
-|---|---|
-| Pill Detection | YOLOv9 / YOLOv10 |
-| Segmentation | SAM / Mask-RCNN |
-| Classification | ViT / EfficientNet |
-| OCR | TrOCR / PaddleOCR |
-| Embeddings | CLIP / ArcFace / ViT |
-| Fusion | Rule-based + ML hybrid |
-| Retrieval | FAISS / OpenSearch |
-
----
-
-## 📚 **Training Plan (Multi-Phase)**
-
-### **Phase 1 — Classification Training**
-Focus: single-pill, no OCR, no detection  
-Metrics: Top-1 / Top-3 Accuracy
-
-### **Phase 2 — Detection**
-Focus: multi-pill images + bounding boxes  
-Metrics: mAP@[0.5:0.95]
-
-### **Phase 3 — OCR**
-Focus: imprint recognition  
-Metrics: CER / WER
-
-### **Phase 4 — Embeddings + Retrieval**
-Focus: similarity-based matching  
-Metrics: Recall@K (K=1,3,5)
-
-### **Phase 5 — Fusion & Validation**
-Focus: final pill identification  
-Metrics: End-to-End Identification Accuracy
-
----
-
-## ☁️ **Cloud Deployment Architecture**
-
-Target cloud environment: **AWS**
-
-```
-React Web UI
-      ↓
-API Gateway (Go)
-      ↓
-Fusion Service (Python)
-      ↓
-───────── ML Inference Services ─────────
-│ detection (GPU - EC2)                 │
-│ classification (GPU - EC2)            │
-│ OCR (CPU - Fargate)                   │
-│ embeddings (CPU - Fargate)            │
-─────────────────────────────────────────
-      ↓
-────────── Data Services (Go) ──────────
-│ PostgreSQL (Pill Metadata - RDS)      │
-│ OpenSearch (Vector DB)                │
-────────────────────────────────────────
-```
-
-AWS components used:
-
-- ECS (GPU + Fargate compute)
-- EC2 GPU nodes
-- API Gateway
-- CloudFront (CDN)
-- S3 (storage)
-- RDS PostgreSQL (metadata)
-- OpenSearch (vector search)
-- Cognito (auth)
-- CloudWatch (monitoring)
-
----
-
-## 🧩 **Microservice Layout**
-
-**Go Services**
-- API Gateway
-- Auth Service
-- Pill Metadata Service
-- Vector Search Service
-- Notification Service
-- Logging Service
-
-**Python Services**
-- Detection Service
-- Classification Service
-- OCR Service
-- Embedding Service
-- Fusion Service
-
----
-
-## 🗺️ **Product Roadmap**
-
-### **v0.1.x — MVP**
-✔ Single pill only  
-✔ Visual classification  
-✔ Basic metadata lookup  
-➡ Goal: functional demo
-
-### **v0.2.x — Multi-Pill + OCR**
-✔ YOLO-based detection  
-✔ Imprint OCR  
-✔ Multi-pill tracking  
-✔ Confidence scoring  
-➡ Goal: user-facing prototype
-
-### **v1.0.0 — Production Pipeline**
+✔ Object Detection  
 ✔ Segmentation  
-✔ Embedding + vector similarity  
-✔ Metadata fusion engine  
-✔ Auth, logging, metrics  
-✔ Cloud deployment  
-➡ Goal: production release
+✔ OCR (future)  
+✔ Visual Classification  
+✔ Feature Fusion  
+✔ Vector Similarity (future)  
+✔ Metadata Database Matching  
+✔ Ranking + Confidence Scoring  
 
-### **v2.x — Enterprise / Healthcare**
-✔ Offline inference  
-✔ Telemedicine API integrations  
-✔ HIPAA / FDA alignment  
-✔ On-prem hospital deployment  
-➡ Goal: clinical-grade system
-
----
-
-## 🏥 **Target Customers & Users**
+Designed for:
 
 - Pharmacies
-- Hospitals & clinics
-- Telemedicine companies
-- Digital health apps
+- Hospitals
+- Telemedicine platforms
 - Caregivers
 - Consumers
 
 ---
 
-## 🔐 **Security & Compliance (Future)**
+# 🎬 End-to-End Processing Pipeline
 
-- HIPAA data handling
-- FDA SaMD considerations
-- Audit logging
-- Encryption in transit (TLS)
-- Encryption at rest (AES-256)
-- Data minimization strategies
-
----
-
-## 📦 **Repository Status**
-
-`Current Stage: MVP → Full Pipeline`
-
-Versioning: Semantic Versioning (SemVer)
-
-Examples:
-
-- `v0.1.0` — MVP
-- `v0.2.0` — Multi-pill + OCR
-- `v1.0.0` — Production
-- `v2.0.0` — Enterprise
-
----
-
-## 🤝 **Collaboration**
-
-Looking for contributors in:
-
-- Computer Vision
-- Machine Learning
-- Backend Engineering
-- Healthcare IT
-- Pharmaceutical data
-- Regulatory compliance
+```
+📸 Input Image
+        ↓
+🧽 Preprocessing (resize, normalize, enhance)
+        ↓
+🔍 Object Detection (YOLOv9/YOLOv10)
+        ↓
+✂️ Segmentation (SAM / Mask-RCNN)
+        ↓
+🧠 Feature Extraction
+     ├─ Color + Shape
+     ├─ Visual Embedding (ViT / EfficientNet)
+     ├─ Imprint Text (OCR - future)
+        ↓
+🧩 Feature Fusion (Hybrid Rule + ML)
+        ↓
+🗄 Database Matching + Ranking
+        ↓
+🎯 Final Pill Identification + Confidence
+```
 
 ---
 
-## 📜 **License**
+# 🧱 Architecture Overview
 
-TBD — depends on commercialization strategy.
+The platform is built as a **microservice architecture** so components can scale independently.
+
+### 🟦 High-Level Architecture Diagram (Text Form)
+
+```
+User → Web UI (React)
+          ↓
+     API Gateway (Go)
+          ↓
+ ┌───────────────────────────────┐
+ │   ML Inference Services       │
+ │   (Python, GPU + CPU)         │
+ │  ├─ Detection Service         │
+ │  ├─ Segmentation Service      │
+ │  ├─ Classification Service    │
+ │  ├─ Embedding Service         │
+ │  └─ Fusion Service            │
+ └───────────────────────────────┘
+          ↓
+ ┌───────────────────────────────┐
+ │      Data Services (Go)       │
+ │  ├─ Pill Metadata → Postgres  │
+ │  └─ Vector Search → OpenSearch│
+ └───────────────────────────────┘
+          ↓
+        S3 Storage
+```
+
+⭐ **Visual PNG/SVG diagrams** are located in:
+
+```
+docs/architecture/
+```
+
+---
+
+# 🤖 Model Selection & Justification
+
+Pill recognition is multi-modal. We assign different models to different tasks:
+
+| Task | Model | Reason |
+|---|---|---|
+| Detection | **YOLOv9 / YOLOv10** | Fast, accurate, real-time on GPU |
+| Segmentation | **SAM / MaskRCNN** | Clean pill boundary extraction |
+| Classification | **ViT / EfficientNet** | Strong accuracy on small objects |
+| Embeddings | **CLIP / ArcFace** | Useful for retrieval + similarity |
+| OCR (future) | **TrOCR / PaddleOCR** | Extract imprint characters |
+| Fusion | Hybrid Rule + ML | Combines multiple modalities |
+| Retrieval (future) | **FAISS / OpenSearch** | Vector search on embeddings |
+
+---
+
+# 🧠 Why YOLOv9/YOLOv10?
+
+Compared to FasterRCNN / DETR / SSD, YOLOv9/10 offers:
+
+✔ Higher FPS  
+✔ Better mAP on small objects  
+✔ GPU-friendly  
+✔ Low latency for real-time apps  
+✔ Excellent for **phone images** (primary input source)
+
+Detection matters because pills often:
+
+- are small objects
+- appear on various backgrounds
+- differ subtly
+
+---
+
+# 🧰 Hardware-Aware Model Deployment
+
+Inference assignment:
+
+| Service | Compute |
+|---|---|
+| Detection | **GPU (EC2)** |
+| Segmentation | **GPU (EC2)** |
+| Classification | **GPU (EC2)** |
+| Embeddings | CPU or GPU |
+| Fusion | CPU |
+| DB Services | CPU |
+| Frontend | Browser/client |
+| API Gateway | CPU |
+
+---
+
+# 🗄 Database & Storage Architecture
+
+The platform uses 3 storage layers:
+
+### 🟦 1. Object Storage → **Amazon S3**
+
+Stores:
+
+- user images
+- segmented crops
+- training data
+- model weights
+- inference logs
+
+---
+
+### 🟨 2. Structured DB → **PostgreSQL (AWS RDS)**
+
+Stores pill metadata:
+
+| Field | Example |
+|---|---|
+| name | Acetaminophen |
+| strength | 500mg |
+| color | White |
+| shape | Capsule |
+| manufacturer | Aurobindo Pharma |
+| ndc | 12345-6789 |
+| imprint | "IP 204" |
+| image refs | s3://... |
+
+---
+
+### 🟩 3. Vector Search (Future) → **AWS OpenSearch / FAISS**
+
+For similarity search using embeddings:
+
+```
+Query Embedding → k-NN → Top Candidates
+```
+
+---
+
+# 🧪 Training Plan
+
+Training is executed in **5 phases**:
+
+### **Phase 1: Detection Training**
+- Dataset: bounding-box annotated pills
+- Model: YOLOv9/10
+- Metrics: `mAP@[0.5:0.95]`
+
+### **Phase 2: Segmentation Training**
+- Dataset: masks (SAM-assisted)
+- Metrics: `IoU / Dice`
+
+### **Phase 3: Classification Training**
+- Dataset: 200 pill classes
+- Augmentations: lighting, zoom, blur, rotation, background
+- Metrics: `Top-1 / Top-3 Accuracy`
+
+### **Phase 4: Embeddings (future)**
+- Model: CLIP / ArcFace + Triplet Loss
+- Metrics: `Recall@K (K=1,3,5)`
+
+### **Phase 5: Fusion & Validation**
+- Evaluate entire pipeline end-to-end
+- Metric: Pill Identification Accuracy
+
+---
+
+# ☁️ AWS Deployment Architecture
+
+Components:
+
+```
+CloudFront → API Gateway → ECS Cluster
+                          ├─ GPU EC2 Nodes (ML)
+                          └─ Fargate CPU Nodes (Services)
+```
+
+AWS Services Used:
+
+| Component | AWS Service |
+|---|---|
+| Compute (GPU) | EC2 G5 / G6 |
+| Compute (CPU) | ECS Fargate |
+| Object Storage | S3 |
+| Structured DB | RDS PostgreSQL |
+| Vector DB | OpenSearch |
+| Authentication | Cognito |
+| CDN | CloudFront |
+| API Proxy | API Gateway |
+| Monitoring | CloudWatch |
+| Metrics | X-Ray |
+| Messaging | SQS / SNS |
+| Container Registry | ECR |
+
+---
+
+# 🧩 Microservices Architecture
+
+Microservices built in **Go (business)** + **Python (ML)**:
+
+---
+
+### 🟦 Python ML Services
+
+```
+ml/
+ ├── detection-service/
+ ├── segmentation-service/
+ ├── classification-service/
+ ├── embedding-service/
+ └── fusion-service/
+```
+
+---
+
+### 🟨 Go Data & Control Services
+
+```
+backend/
+ ├── api-gateway/
+ ├── auth-service/
+ ├── pill-db-service/
+ ├── vector-search-service/
+ ├── logging-service/
+ └── notification-service/
+```
+
+---
+
+# 🏗 Repository Structure (Simplified)
+
+```
+pill-id-platform/
+ ├── frontend/
+ ├── backend/
+ ├── ml/
+ ├── database/
+ ├── deployments/
+ ├── docs/
+ └── ci-cd/
+```
+
+---
+
+# 🔁 Versioning Strategy (SemVer)
+
+```
+MAJOR.MINOR.PATCH
+```
+
+Planned:
+
+```
+v0.1.0 → MVP (single pill classification)
+v0.2.0 → Multi-pill + OCR
+v1.0.0 → Full pipeline w/ vector search
+v2.0.0 → Enterprise: offline + HIPAA + telemed
+```
+
+---
+
+# 🗺 Roadmap
+
+### **v0.1.x — MVP**
+✔ Single pill  
+✔ Classification  
+✔ Metadata lookup  
+
+### **v0.2.x — Multi-Pill**
+✔ Detection  
+✔ Segmentation  
+✔ OCR  
+
+### **v1.0.0 — Production**
+✔ Embeddings  
+✔ Fusion  
+✔ Vector Search  
+✔ AWS Deployment  
+✔ Auth + Observability  
+
+### **v2.x — Enterprise**
+✔ Offline inference  
+✔ Regulatory alignment  
+✔ Telemedicine API  
+✔ Pharmacist workflows  
+
+---
+
+# 🤝 Contributions
+
+Looking for collaborators with backgrounds in:
+
+- ML/CV
+- Backend Systems
+- Healthcare Software
+- Pharmaceutical Data
+
+---
+
+# 📜 License
+
+TBD (commercial strategy dependent)
+
+---
+
+# 🚀 Status
+
+`Current Phase: MVP → Full Pipeline`
