@@ -1,3 +1,5 @@
 venv/
 .venv/
 __pycache__/
+./ml/detection_service/training/yolov10m.pt
+./ml/datasets
