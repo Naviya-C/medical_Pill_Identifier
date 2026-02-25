@@ -1,0 +1,9 @@
+path: "/home/naviya-c/Desktop/Projects/pill-id-platform/ml/datasets"
+
+train: "detection_service/images/train"
+val: "detection_service/images/val"
+
+nc: 1
+
+names:
+  0: pill
