@@ -7,8 +7,7 @@
 
 Pill-ID Platform is an AI-driven system for identifying medication pills from images by combining:
 
-✔ Object Detection  
-✔ Segmentation  
+✔ Object Detection   
 ✔ OCR (future)  
 ✔ Visual Classification  
 ✔ Feature Fusion  
